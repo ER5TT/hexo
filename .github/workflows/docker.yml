@@ -38,12 +38,14 @@ jobs:
       - name: Check if Hexo version has changed
         id: hexo_version_check
         run: |
+          # Attempt to pull the image. If it fails, the version has changed or the image doesn't exist
           if ! docker pull ${{ secrets.DOCKER_USERNAME }}/hexo:${{ env.HEXO_VERSION }}; then
             echo "Hexo version has changed or image doesn't exist, proceeding with build."
             echo "build_needed=true" >> $GITHUB_ENV
           else
             echo "Hexo version has not changed, skipping build."
             echo "build_needed=false" >> $GITHUB_ENV
+          fi
 
       - name: Build and push the Docker image
         if: env.build_needed == 'true'
