@@ -1,11 +1,24 @@
 #!/bin/sh
 set -e
 
-chown -R hexo:hexo /hexo
+PUID=${PUID:-1000}
+PGID=${PGID:-1000}
 
-if [ ! -f package.json ] || [ ! -f _config.yml ]; then
-  hexo init .
-  npm install
+if ! getent group hexo > /dev/null; then
+    addgroup -g $PGID -S hexo
 fi
 
-exec "$@"
+if ! getent passwd hexo > /dev/null; then
+    adduser -u $PUID -G hexo -S hexo
+fi
+
+chown -R hexo:hexo /hexo
+
+su-exec hexo sh -c '
+  if [ ! -f package.json ] || [ ! -f _config.yml ]; then
+    hexo init .
+    npm install
+  fi
+
+  exec "$@"
+' "$@"
