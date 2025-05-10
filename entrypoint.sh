@@ -12,7 +12,7 @@ if ! getent passwd hexo > /dev/null; then
     adduser -u "$PUID" -S -D -H -g "$PGID" hexo
 fi
 
-chown -R hexo:hexo /hexo
+chown -R "$PUID":"$PGID" /hexo
 
 su-exec hexo sh -c '
   if [ ! -f package.json ] || [ ! -f _config.yml ]; then
