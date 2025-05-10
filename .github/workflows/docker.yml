@@ -13,7 +13,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Install hexo and get Hexo latest version
+      - name: Install Hexo and get Hexo latest version
         run: |
           npm install -g hexo-cli hexo-server
           mkdir tmp_hexo && cd tmp_hexo
@@ -38,7 +38,7 @@ jobs:
       - name: Check if Hexo version has changed
         id: hexo_version_check
         run: |
-          if [[ "$(docker pull ${{ secrets.DOCKER_USERNAME }}/hexo:${{ env.HEXO_VERSION }} || echo '')" == "" ]]; then
+          if ! docker pull ${{ secrets.DOCKER_USERNAME }}/hexo:${{ env.HEXO_VERSION }}; then
             echo "Hexo version has changed or image doesn't exist, proceeding with build."
             echo "build_needed=true" >> $GITHUB_ENV
           else
