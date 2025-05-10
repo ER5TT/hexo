@@ -9,7 +9,7 @@ if ! getent group "$PGID" > /dev/null; then
 fi
 
 if ! getent passwd hexo > /dev/null; then
-    adduser -u "$PUID" -S -D -H -g "$PGID" hexo
+    adduser -u "$PUID" -S -D -g "$PGID" hexo
 fi
 
 chown -R "$PUID":"$PGID" /hexo
