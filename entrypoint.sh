@@ -19,6 +19,6 @@ su-exec hexo sh -c '
     hexo init .
     npm install
   fi
+'
 
-  exec "$@"
-' "$@"
+exec su-exec hexo "$@"
