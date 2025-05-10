@@ -29,12 +29,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Check if Hexo version has changed
         id: hexo_version_check
         run: |
@@ -46,6 +40,12 @@ jobs:
             echo "Hexo version has not changed, skipping build."
             echo "build_needed=false" >> $GITHUB_ENV
           fi
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push the Docker image
         if: env.build_needed == 'true'
