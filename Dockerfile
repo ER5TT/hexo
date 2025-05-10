@@ -10,13 +10,9 @@ RUN apk add --no-cache \
     hexo-cli \
     hexo-server && \
     rm -rf /var/cache/apk/* && \
-    addgroup -S hexo -g 1000 && \
-    adduser -S hexo -u 1000 -G hexo && \
     mkdir -p /hexo && \
-    chmod +x /entrypoint.sh && \
-    chown -R hexo:hexo /hexo /entrypoint.sh
+    chmod +x /entrypoint.sh
 
-USER hexo
 WORKDIR /hexo
 
 ENTRYPOINT ["/entrypoint.sh"]
