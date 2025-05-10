@@ -3,6 +3,7 @@ FROM alpine:latest
 COPY entrypoint.sh /entrypoint.sh
 
 RUN apk add --no-cache \
+    su-exec \
     git \
     nodejs \
     npm && \
